@@ -1,28 +1,53 @@
 @extends ('auth.layouts')
 @section('content')
-<div class="bg-slate-200 h-screen justify-center items-center flex flex-col ">
-    <div class="card w-80 bg-slate-300 flex flex-col rounded-lg shadow-lg shadow-slate-500 p-8">
-<h1 class="text-4xl bg-clip-text text-transparent bg-gradient-to-tr from-slate-700 via-slate-500 to-s-900 text-center font-extrabold ">Login</h1>
-<br>
-<div class="flex flex-col justify-center items-center">
+<div class=" h-screen flex justify-center items-center">
+    <div class="card w-80 bg-white rounded-lg shadow-lg p-8">
 
-<div class="error bg-slate-200 w-60 rounded-md text-center ">
-    <h1 class="text-red-500">{{$errors->first('email') ? $errors->first('email') : $errors->first('password')}}</h1>
+        <h1 class="text-4xl text-center font-extrabold mb-6">Login</h1>
+
+        <!-- Error Message -->
+        <div class="mb-4">
+            @if ($errors->any())
+                <div class="bg-red-100 text-red-600 p-4 rounded-md text-center">
+                    <p>{{ $errors->first('email') ? $errors->first('email') : $errors->first('password') }}</p>
+                </div>
+            @endif
+        </div>
+
+        <!-- Login Form -->
+        <form action="{{ route('authenticate') }}" method="post">
+            @csrf
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-lg font-bold text-gray-700">Email</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="Masukkan Email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-6">
+                <label for="password" class="block text-lg font-bold text-gray-700">Password</label>
+                <input type="password" name="password" id="password" placeholder="Masukkan Password"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-center mb-4">
+                <button type="submit"
+                    class="w-full py-2 px-4 bg-slate-700 text-white font-bold rounded-md hover:bg-slate-800 focus:outline-none">
+                    Login
+                </button>
+            </div>
+
+            <!-- Register Link -->
+            {{-- <div class="text-center">
+                <p class="text-sm">Belum punya akun? <a href="{{ route('register') }}"
+                        class="text-slate-700 font-semibold hover:text-slate-900">Daftar</a></p>
+            </div> --}}
+        </form>
+    </div>
 </div>
-    
-
-<form  action="{{ route ('authenticate') }}" method="post">
-    @csrf
-    <label class="label text-lg font-bold ">Email</label>
-    <input class="input input-rounded" placeholder="Masukan Email" type="email" name="email" id="email" value=" {{old ('email') }}">
-
-    <label class="label text-lg font-bold ">Password</label>
-
-    <input  class="input input-rounded mb-4" type="password" name="password" placeholder="Masukan Password" id="password">
-
-    <button class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-[6px] px-4 rounded mx-2" type="submit">Login</button>
-    <a class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded" href="{{ route('register') }}">Daftar</a>
-</form>
-</div>
-</div>
-</div>
+@endsection

@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginRegisterController extends Controller
 {
+
+    public function index(){
+        $users = User::latest()->paginate(10);
+        return view('admin.akun.index', compact('users'));
+    }
+
+    public function create(){
+        return view('admin.akun.create');
+    }
+
+   
+
     public function register() {
         return view('auth.register');
     }
@@ -18,26 +30,75 @@ class LoginRegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|string|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
+            'usertype' => 'required'
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'usertype' => 'admin'
+            'usertype' => $request->usertype
         ]);
 
-        $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
+        return redirect()->route('admin.akun')->withSuccess("Akun kamu berhasil dibuat");
+    }
 
+    public function edit(Request $request) {
 
-        if ($request->user()->usertype == 'admin') {
-            return redirect('admin/dashboard')->withSuccess("Kamu berhasil register dan login");
-        }
+        $akun = User::findOrFail($request->id);
+        return view('admin.akun.edit', compact('akun'));
+        
+    }
 
-        return redirect()->intended(route('dashboard'));
+    public function update(Request $request) {
+
+        $request->validate([
+            'name' => 'required|string|max:250',
+            'usertype' => 'required'
+        ]);
+
+        $akun = User::findOrFail($request->id);
+        $akun->update([
+            'name' => $request->name,
+            'usertype' => $request->usertype
+        ]);
+
+        return redirect()->route('admin.akun')->withSuccess("Akun kamu berhasil diupdate");
+    }
+
+    public function updateEmail(Request $request) {
+
+        $request->validate([
+            'email' => 'required|string|max:250|unique:users',
+        ]);
+
+        $akun = User::findOrFail($request->id);
+        $akun->update([
+            'email' => $request->email
+        ]);
+
+        return redirect()->route('admin.akun')->withSuccess("Email kamu berhasil diupdate");
+    }
+
+    public function updatePassword(Request $request) {
+
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $akun = User::findOrFail($request->id);
+        $akun->update([
+            'password' => Hash::make($request->password)
+        ]);
+        return redirect()->route('admin.akun')->withSuccess("Password kamu berhasil diupdate");
+    }
+    
+    public function destroy(Request $request) {
+
+        $akun = User::findOrFail($request->id);
+        $akun->delete();
+        return redirect()->route('admin.akun')->withSuccess("Akun kamu berhasil dihapus");
     }
 
     public function login() {

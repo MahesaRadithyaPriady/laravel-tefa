@@ -21,7 +21,7 @@ importers:
         specifier: ^4.12.14
         version: 4.12.14(postcss@8.4.49)
       laravel-vite-plugin:
-        specifier: ^1.0
+        specifier: ^1.0.5
         version: 1.0.5(vite@5.4.11)
       postcss:
         specifier: ^8.4.49
@@ -30,7 +30,7 @@ importers:
         specifier: ^3.4.14
         version: 3.4.14
       vite:
-        specifier: ^5.0
+        specifier: ^5.4.11
         version: 5.4.11
 
 packages:
