@@ -1,54 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Create - User </title>
-</head>
-<body>
-  <h1>Tambah User</h1>
-  <a href="{{ route('admin.dashboard') }}">Menu Utama</a>
-  <a href="{{ route('admin.akun') }}">Kembali</a>
-  <br>
-  <br>
+@extends('admin.layouts')
 
-  @if($errors->any())
-  <div class="alert alert-danger">
-      <ul>
-          @foreach($errors->all() as $error)
-          <li>{{ $error }}</li>
-          @endforeach
-      </ul>
-  </div>
-  @endif
+@section('content')
+<div class="p-5">
+    <h1 class="text-2xl font-bold mb-5">Tambah User</h1>
+    <div class="mb-4">
+       
+        <a href="{{ route('admin.akun') }}" class="btn btn-primary">Kembali</a>
+    </div>
 
-  <form action="{{ route('akun.create') }}" method="POST" enctype="multipart/form-data">
-  @csrf
+    <!-- Menampilkan Error -->
+    @if($errors->any())
+    <div class="alert alert-error mb-4">
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
-  <label>Nama Lengkap</label>
-  <br>
-  <input type="text" name="name" id="name" value="{{ old('name') }}">
-  <br><br>
-  <label>Email Address</label>
-  <br>
-  <input type="email" name="email" id="email" value="{{ old('email') }}">
-  <br><br>
-  <label>Password</label>
-  <br>
-  <input type="password" name="password" id="password">
-  <br><br>
-  <label for="password_confirmation" class="col-md-4 col-form-label text-md-end text-start">Confirm Password</label>
-  <br>
-      <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
-  <br><br>
-  <label>Role</label>
-  <select name="usertype">
-      <option value="admin">Admin</option>
-      <option value="ptk">PTK</option>
-  </select>
-  <br><br>
-  <button type="submit">Tambah</button>
-  </form>
-</body>
-</html>
+    <!-- Form Tambah User -->
+    <form action="{{ route('akun.create') }}" method="POST" enctype="multipart/form-data" class="form-control">
+        @csrf
+
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text">Nama Lengkap</span>
+            </label>
+            <input type="text" name="name" id="name" value="{{ old('name') }}" class="input input-bordered" required>
+        </div>
+
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text">Email Address</span>
+            </label>
+            <input type="email" name="email" id="email" value="{{ old('email') }}" class="input input-bordered" required>
+        </div>
+
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text">Password</span>
+            </label>
+            <input type="password" name="password" id="password" class="input input-bordered" required>
+        </div>
+
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text">Confirm Password</span>
+            </label>
+            <input type="password" name="password_confirmation" id="password_confirmation" class="input input-bordered" required>
+        </div>
+
+        <div class="form-control mb-4">
+            <label class="label">
+                <span class="label-text">Role</span>
+            </label>
+            <select name="usertype" class="select select-bordered" required>
+                <option value="admin">Admin</option>
+                <option value="ptk">PTK</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tambah</button>
+    </form>
+</div>
+@endsection

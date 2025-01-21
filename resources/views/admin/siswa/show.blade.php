@@ -1,66 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Show Data</title>
-    <style>
-        table{
-            border-collapse: collapse;
-            margin: 20px 0px;
-            text-align: left;
-        }
+@extends('admin.layouts')
+@section('content')
+    <div class="p-6">
+        <h1 class="text-2xl font-bold mb-4">Detail Siswa</h1>
+        <a href="{{ route('siswa.index') }}" class="btn btn-secondary mb-4">Kembali</a>
 
-        table,
-        th,
-        td{
-            border: 1px solid;
-            text-align: left;
-            padding-right:20px; 
-        }
-    </style>
-</head>
-<body>
-    <h1>Detail Siswa</h1>
-    <a href="{{ route('siswa.index') }}">Kembali</a>
+        <div class="card bg-base-100 shadow-lg p-6">
+            <div class="flex justify-center mb-6">
+                <img src="{{ asset('storage/public/siswas/' . $siswa->image) }}" alt="Foto Siswa" class="rounded-full w-32 h-32 border">
+            </div>
 
-    <table>
-        <tr>
-            <td colspan="4" style="text-align: center;"> <img src="{{ asset('storage/public/siswas/' . $siswa->image) }}" width="120px" height="120px"></td>
-        </tr>
-        <tr>
-            <th colspan="2">Akun Siswa</th>
-            <th colspan="2">Data Siswa</th>
-        </tr>
-        <tr>
-            <th>Nama</th>
-            <td>: {{ $siswa->name }}</td>
-            <th>Nis</th>
-            <td>: {{ $siswa->nis }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ $siswa->email }} </td>
-            <th>Kelas</th>
-            <td> {{ $siswa->tingkatan }} {{ $siswa->jurusan }} {{ $siswa->kelas}} </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <th>No Hp</th>
-            <td> {{ $siswa->hp}} </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <th>Status</th>
-            @if($siswa->status == 1):
-            <td>: Aktif</td>
-            @else
-            <td>: Tidak Aktif</td>
-            @endif
-        </tr>
-    </table>
-</body>
-</html>
+            <table class="table w-full border">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th colspan="2" class="text-center text-lg">Akun Siswa</th>
+                        <th colspan="2" class="text-center text-lg">Data Siswa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="px-4 py-2">Nama</th>
+                        <td class="px-4 py-2">: {{ $siswa->name }}</td>
+                        <th class="px-4 py-2">Nis</th>
+                        <td class="px-4 py-2">: {{ $siswa->nis }}</td>
+                    </tr>
+                    <tr>
+                        <th class="px-4 py-2">Email</th>
+                        <td class="px-4 py-2">: {{ $siswa->email }}</td>
+                        <th class="px-4 py-2">Kelas</th>
+                        <td class="px-4 py-2">: {{ $siswa->tingkatan }} {{ $siswa->jurusan }} {{ $siswa->kelas }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2"></td>
+                        <td class="px-4 py-2"></td>
+                        <th class="px-4 py-2">No Hp</th>
+                        <td class="px-4 py-2">: {{ $siswa->hp }}</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2"></td>
+                        <td class="px-4 py-2"></td>
+                        <th class="px-4 py-2">Status</th>
+                        <td class="px-4 py-2">: {{ $siswa->status == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection
